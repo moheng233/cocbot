@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "plugins\\MiraiAPIHTTP"
+		},
+		{
+			"path": "sdk"
 		}
 	],
 	"settings": {}

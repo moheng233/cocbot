@@ -1,5 +1,5 @@
-const robot = require("./sdk/robot.js");
-const messageChain = require("./sdk/messageChain");
+const robot = require("mirai-nodesdk/robot");
+const messageChain = require("mirai-nodesdk/messageChain");
 
 async function main() {
     
