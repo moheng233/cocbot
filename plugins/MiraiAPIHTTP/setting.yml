@@ -13,22 +13,3 @@ enableWebsocket: true
 # 可选，配置CORS跨域，默认为*，即允许所有域名
 cors:
   - '*'
-
-  # 可选，心跳服务
-heartbeat:
-  # 可选，是否启用心跳，默认不启用
-  enable: true
-  # 可选，心跳启动延迟，默认1000
-  delay: 1000
-  # 可选，心跳周期，默认15000
-  period: 15000
-  # 必选，心跳PING的地址列表
-  destinations:
-    - http://127.0.0.1:8889/heartbeat
-  # 可选，心跳PING时需要带上的请求体
-  extraBody:
-    # 填上你需要的请求体（如QQ等信息）
-  # 可选，心跳PING时需要带上的请求头
-  extraHeaders:
-    # 填上你需要的请求头（如授权信息等）
-    Authorization: basic bot

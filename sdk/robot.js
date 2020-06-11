@@ -1,6 +1,10 @@
 const fly = require("flyio");
 const messageChain = require("./messageChain");
 
+/**
+ * @class 机器人的基础类
+ * @todo 有一个bug
+ */
 class robot {
 
     /**
@@ -11,12 +15,14 @@ class robot {
      * @param {String} config.host mirai的主机地址
      * @param {String} config.port mirai的主机端口
      * @param {String} config.qq mirai的机器人qq
+     * @param {String} config.passwd mirai的机器人密码,为0时不自动登陆,其他即自动登陆
      */
     constructor (config){
         this.authKey = config.authKey;
         this.host = config.host;
         this.port = config.port;
         this.qq = config.qq;
+        this.passwd = config.passwd;
         fly.config.baseURL = "http://"+this.host+":"+this.port;
 
     }
@@ -24,6 +30,8 @@ class robot {
      * 初始化，必须！
      */
     async init () {
+        let r = await this.about();
+
         let session = await this.auth_key(this.authKey);
         if( session != false){
             this.session = session;
@@ -33,6 +41,11 @@ class robot {
                 mag: "authKey 相关错误"
             };
         }
+
+        // if( this.passwd != 0) {
+        //     let e = await this.exec_command("login",[this.qq,this.passwd]);
+        //     console.log(e);
+        // }
 
         let e = await this.verify_session(this.session,this.qq);
         if( e != 0){
@@ -99,6 +112,21 @@ class robot {
         return e.data.code;
     }
     /**
+     * 在服务端执行一条指令
+     * @param {String} command 要执行的指令
+     * @param {Array} arg 参数列表
+     * @returns {String} 返回值
+     */
+    async exec_command(command,args){
+        let e = await fly.post("/command/send",{
+            "authKey": this.authKey,
+            "name": command,
+            "args": args
+        })
+
+        return e.data;
+    }
+    /**
      * 使用此方法向指定好友发送消息
      * @param {String} target 发送消息目标好友的QQ号
      * @param {Int} quote 引用一条消息的messageId进行回复
@@ -126,6 +154,18 @@ class robot {
             "sessionKey": this.session,
             "target": target,
             "messageChain": message
+        })
+
+        return e.data;
+    }
+    /**
+     * 使用此方法撤回指定消息。对于bot发送的消息，有2分钟时间限制。对于撤回群聊中群员的消息，需要有相应权限请求
+     * @param {String} target 需要撤回的消息的messageId
+     * @returns {Object}
+     */
+    async recallMessage(target){
+        let e = await fly.post("/recall",{
+            "target": target
         })
 
         return e.data;

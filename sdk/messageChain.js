@@ -3,7 +3,7 @@ class MessageChain {
      * 消息链数组
      * @var {Array} message_chain 
      */
-    message_chain;
+    // message_chain;
 
     /**
      * 一个消息链对象
