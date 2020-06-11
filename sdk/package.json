@@ -4,6 +4,9 @@
   "description": "mirai服务器在node上的SDK",
   "main": "main.js",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "dependencies": {
     "flyio": "^0.6.14",
     "socket.io": "^2.3.0"
