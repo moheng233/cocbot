@@ -30,16 +30,22 @@ class robot {
      * 初始化，必须！
      */
     async init () {
-        let r = await this.about();
+        let r = await this.about().catch(e => {
+            throw {
+                message: "服务器可能不在线",
+                err: JSON.stringify(e)
+            };
+        });
 
-        let session = await this.auth_key(this.authKey);
+        let session = await this.auth_key(this.authKey).catch(e => {
+            throw {
+                message: "验证authkey失败",
+                err: JSON.stringify(e)
+            };
+        });
+        
         if( session != false){
             this.session = session;
-        } else {
-            return {
-                code: "0010",
-                mag: "authKey 相关错误"
-            };
         }
 
         // if( this.passwd != 0) {
@@ -47,7 +53,12 @@ class robot {
         //     console.log(e);
         // }
 
-        let e = await this.verify_session(this.session,this.qq);
+        let e = await this.verify_session(this.session,this.qq).catch(e => {
+            throw {
+                message: "验证session失败",
+                err: JSON.stringify(e)
+            };
+        });
         if( e != 0){
             return e;
         }
@@ -59,7 +70,9 @@ class robot {
      * @returns {Object} data
      */
     async about(){
-        let e = await fly.get("/about");
+        let e = await fly.get("/about").catch(e => {
+            throw e;
+        });
         return e.data;
     }
     /**
@@ -71,11 +84,15 @@ class robot {
     async auth_key(authKey){
         let e = await fly.post("/auth",{
             "authKey": authKey
+        }).catch(e => {
+            throw e;
         })
         if(e.data.code == 0){
             return e.data.session;
         } else {
-            return false;
+            throw {
+                message:"AuthKey错误"
+            };
         }
     }
     /**
@@ -90,6 +107,8 @@ class robot {
         let e = await fly.post("/verify",{
             "sessionKey": session,
             "qq": qq
+        }).catch(e => {
+            throw e;
         })
 
         return e.data.code;
@@ -107,6 +126,8 @@ class robot {
         let e = await fly.post("/release",{
             "sessionKey": this.session,
             "qq": this.qq
+        }).catch(e => {
+            throw e;
         })
 
         return e.data.code;
@@ -122,6 +143,8 @@ class robot {
             "authKey": this.authKey,
             "name": command,
             "args": args
+        }).catch(e => {
+            throw e;
         })
 
         return e.data;
@@ -139,7 +162,14 @@ class robot {
             "sessionKey": this.session,
             "target": target,
             "messageChain": message
+        }).catch(e => {
+            throw e;
         })
+        if(e.data.code != 0){
+            throw e.data;
+        } else {
+            return e.data;
+        }
 
         return e.data;
     }
@@ -154,9 +184,15 @@ class robot {
             "sessionKey": this.session,
             "target": target,
             "messageChain": message
+        }).catch(e => {
+            throw e;
         })
-
-        return e.data;
+        if(e.data.code != 0){
+            throw e.data;
+        } else {
+            return e.data;
+        }
+        
     }
     /**
      * 使用此方法撤回指定消息。对于bot发送的消息，有2分钟时间限制。对于撤回群聊中群员的消息，需要有相应权限请求
@@ -166,6 +202,8 @@ class robot {
     async recallMessage(target){
         let e = await fly.post("/recall",{
             "target": target
+        }).catch(e => {
+            throw e;
         })
 
         return e.data;
