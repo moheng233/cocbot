@@ -4,7 +4,8 @@
   "main": "main.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon main.js"
+    "dev": "nodemon main.js",
+    "install": "yarn link mirai-nodesdk"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
