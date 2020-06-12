@@ -10,7 +10,7 @@
 			"path": "plugins\\MiraiAPIHTTP"
 		},
 		{
-			"path": "sdk"
+			"path": "..\\mirai-nodesdk"
 		}
 	],
 	"settings": {}
