@@ -1,10 +1,10 @@
-const robot = require("mirai-nodesdk/robot");
-const messageChain = require("mirai-nodesdk/messageChain");
+import robot from "mirai-nodesdk/robot";
+import messageChain from "mirai-nodesdk/messageChain";
 
 async function main() {
     
     let ROBOT = new robot({
-        authKey: "INITKEYKtaVkGfF",
+        authKey: "INITKEYwLwkO8lZ",
         qq: "3453563382",
         passwd: "momeng1055",
         host: "127.0.0.1",
