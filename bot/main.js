@@ -1,5 +1,5 @@
-import robot from "mirai-nodesdk/robot";
-import messageChain from "mirai-nodesdk/messageChain";
+import robot from "mirai-nodesdk/src/robot";
+import messageChain from "mirai-nodesdk/src/messageChain";
 
 async function main() {
     
@@ -13,7 +13,7 @@ async function main() {
 
     console.log(await ROBOT.init());
 
-    let message = await ROBOT.sendGroupMessage("790172839","",new messageChain().add_at("1523433122").add_plain("你妈的，为什么！").getobj());
+    let message = await ROBOT.sendGroupMessage("790172839",0,new messageChain().add_at("1523433122").add_plain("你妈的，为什么！").getobj());
     // await ROBOT.recallMessage(message.messageId);
 
     console.log(await ROBOT.release_session());
