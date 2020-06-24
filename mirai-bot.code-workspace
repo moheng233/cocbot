@@ -12,5 +12,8 @@
 		{
 			"path": "..\\mirai-nodesdk"
 		}
-	]
+	],
+	"settings": {
+		"typescript.tsdk": "mirai-nodesdk\\node_modules\\typescript\\lib"
+	}
 }
